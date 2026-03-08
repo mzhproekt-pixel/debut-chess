@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Шахматная школа "Дебют" | Актау</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #0f3460;
+            --gold: #e94560;
+            --light: #eaeaea;
+            --white: #ffffff;
+            --cream: #f5f5f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--cream);
+            color: var(--primary);
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .chess-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.03;
+            background-image: 
+                linear-gradient(45deg, #000 25%, transparent 25%),
+                linear-gradient(-45deg, #000 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, #000 75%),
+                linear-gradient(-45deg, transparent 75%, #000 75%);
+            background-size: 60px 60px;
+            background-position: 0 0, 0 30px, 30px -30px, -30px 0px;
+            animation: bgMove 20s linear infinite;
+        }
+
+        @keyframes bgMove {
+            0% { background-position: 0 0, 0 30px, 30px -30px, -30px 0px; }
+            100% { background-position: 60px 60px, 60px 90px, 90px 30px, 30px 60px; }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 5%;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            padding: 0.5rem 5%;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: var(--white);
+            text-decoration: none;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--gold), #ff6b6b);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            transform: rotate(0deg);
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover .logo-icon {
+            transform: rotate(15deg);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .mobile-menu span {
+            width: 25px;
+            height: 3px;
+            background: var(--white);
+            transition: all 0.3s ease;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--accent) 100%);
+            position: relative;
+            overflow: hidden;
+            padding-top: 80px;
+        }
+
+        .hero::before {
+            content: '♔♕♖♗♘♙';
+            position: absolute;
+            font-size: 20rem;
+            opacity: 0.05;
+            color: white;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+            50% { transform: translate(-50%, -55%) rotate(5deg); }
+        }
+
+        .hero-content {
+            text-align: center;
+            color: var(--white);
+            z-index: 1;
+            padding: 2rem;
+            max-width: 900px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(233, 69, 96, 0.2);
+            border: 1px solid var(--gold);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(233, 69, 96, 0.4); }
+            50% { box-shadow: 0 0 0 10px rgba(233, 69, 96, 0); }
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #fff 0%, #e94560 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 3rem;
+            font-weight: 300;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--gold);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--gold);
+            color: white;
+            box-shadow: 0 10px 30px rgba(233, 69, 96, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(233, 69, 96, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: white;
+        }
+
+        /* Sections */
+        section {
+            padding: 6rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .section-header p {
+            color: #666;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* About Section */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-image {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+        }
+
+        .about-image::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: rotate(45deg);
+            transition: all 0.5s;
+            opacity: 0;
+        }
+
+        .about-image:hover::before {
+            animation: shine 0.5s ease-in-out;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); opacity: 0; }
+        }
+
+        .chess-board-visual {
+            width: 100%;
+            height: 400px;
+            background: 
+                repeating-conic-gradient(#b58863 0% 25%, #f0d9b5 0% 50%) 
+                50% / 100px 100px;
+            border-radius: 20px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chess-piece-hero {
+            font-size: 8rem;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+            animation: pieceFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes pieceFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .about-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        .about-content p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .features-list {
+            list-style: none;
+            margin-top: 2rem;
+        }
+
+        .features-list li {
+            padding: 0.8rem 0;
+            padding-left: 2rem;
+            position: relative;
+            color: #444;
+        }
+
+        .features-list li::before {
+            content: '♟';
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+            font-size: 1.2rem;
+        }
+
+        /* Locations */
+        .locations {
+            background: var(--primary);
+            color: white;
+            padding: 6rem 5%;
+            margin: 0 -5%;
+            width: calc(100% + 10%);
+        }
+
+        .locations .section-header h2,
+        .locations .section-header p {
+            color: white;
+        }
+
+        .locations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .location-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .location-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--gold), transparent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .location-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.08);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .location-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .location-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .location-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .location-card p {
+            color: rgba(255,255,255,0.7);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .location-badge {
+            display: inline-block;
+            background: var(--gold);
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* Trainers */
+        .trainers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+        }
+
+        .trainer-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .trainer-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+
+        .trainer-image {
+            height: 300px;
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 6rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .trainer-image::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(to top, rgba(0,0,0,0.3), transparent);
+        }
+
+        .trainer-content {
+            padding: 2rem;
+        }
+
+        .trainer-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .trainer-title {
+            color: var(--gold);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .trainer-stats {
+            display: flex;
+            gap: 2rem;
+            margin: 1.5rem 0;
+            padding: 1rem 0;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+
+        .trainer-stat {
+            text-align: center;
+        }
+
+        .trainer-stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .trainer-stat-label {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .achievements {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .achievements li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: #555;
+            font-size: 0.95rem;
+        }
+
+        .achievements li::before {
+            content: '★';
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+        }
+
+        /* Programs */
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .program-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .program-card.featured {
+            border-color: var(--gold);
+            transform: scale(1.05);
+        }
+
+        .program-card.featured::before {
+            content: 'Популярное';
+            position: absolute;
+            top: 1rem;
+            right: -2rem;
+            background: var(--gold);
+            color: white;
+            padding: 0.3rem 3rem;
+            transform: rotate(45deg);
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .program-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .program-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--gold), #ff6b6b);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        .program-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .program-card p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .program-features {
+            list-style: none;
+        }
+
+        .program-features li {
+            padding: 0.5rem 0;
+            color: #555;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .program-features li::before {
+            content: '✓';
+            color: var(--gold);
+            font-weight: bold;
+        }
+
+        /* Contact */
+        .contact-section {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 6rem 5%;
+            margin: 0 -5%;
+            width: calc(100% + 10%);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            align-items: center;
+        }
+
+        .contact-info h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-info p {
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .contact-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: white;
+            text-decoration: none;
+            padding: 1rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-link:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateX(10px);
+        }
+
+        .contact-link-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .contact-form {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            color: var(--primary);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #444;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-family: inherit;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Footer */
+        footer {
+            background: #0a0a15;
+            color: white;
+            padding: 4rem 5% 2rem;
+            margin: 0 -5%;
+            width: calc(100% + 10%);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: var(--gold);
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            line-height: 1.8;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--gold);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: var(--gold);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: flex;
+            }
+
+            .about-grid,
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-stats {
+                gap: 2rem;
+            }
+
+            .locations-grid,
+            .trainers-grid,
+            .programs-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .program-card.featured {
+                transform: none;
+            }
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="chess-bg"></div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <div class="logo-icon">♔</div>
+                <span>Дебют</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#about">О школе</a></li>
+                <li><a href="#locations">Адреса</a></li>
+                <li><a href="#trainers">Тренеры</a></li>
+                <li><a href="#programs">Программы</a></li>
+                <li><a href="#contact">Контакты</a></li>
+            </ul>
+            <div class="mobile-menu" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">🏆 Лицензированная методика обучения</div>
+            <h1>Шахматная школа «Дебют»</h1>
+            <p class="hero-subtitle">Единственная школа в Актау с профессиональной подготовкой шахматистов от 4 лет. Обучаем побеждать!</p>
+            
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-number">30+</span>
+                    <span class="stat-label">Лет стажа</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">16K</span>
+                    <span class="stat-label">Подписчиков</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">3</span>
+                    <span class="stat-label">Филиала</span>
+                </div>
+            </div>
+
+            <div class="cta-buttons">
+                <a href="#contact" class="btn btn-primary">Записаться на пробный урок</a>
+                <a href="#programs" class="btn btn-secondary">Узнать больше</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="fade-in">
+        <div class="about-grid">
+            <div class="about-image">
+                <div class="chess-board-visual">
+                    <div class="chess-piece-hero">♔</div>
+                </div>
+            </div>
+            <div class="about-content">
+                <h3>Развиваем шахматное мышление с 4 лет</h3>
+                <p>Шахматная школа «Дебют» — единственная школа в городе Актау, которая проводит обучение детей и взрослых шахматам по единой лицензированной методике обучения.</p>
+                <p>Мы сочетаем лучшие традиции советской шахматной школы, зарубежные программы и современные разработки. Наши воспитанники — призеры и чемпионы городских и республиканских турниров.</p>
+                <ul class="features-list">
+                    <li>Набор детей с 4-х лет</li>
+                    <li>Групповые и индивидуальные занятия</li>
+                    <li>Онлайн-обучение с различной интенсивностью</li>
+                    <li>Подготовка к разрядам (с нуля до 1-го разряда)</li>
+                    <li>Проведение квалификационных турниров</li>
+                    <li>Игровые дни для практики</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Locations Section -->
+    <section id="locations" class="locations fade-in">
+        <div class="section-header">
+            <h2>Наши филиалы в Актау</h2>
+            <p>Выберите удобное расположение и приходите на бесплатный пробный урок</p>
+        </div>
+        <div class="locations-grid">
+            <div class="location-card">
+                <div class="location-icon">📍</div>
+                <h3>5-й микрорайон</h3>
+                <p>5-й микрорайон, 38<br>Центральный район</p>
+                <span class="location-badge">Основной филиал</span>
+            </div>
+            <div class="location-card">
+                <div class="location-icon">🏢</div>
+                <h3>ЖК Ак Жайык</h3>
+                <p>17-й микрорайон, 18/2<br>Жилой комплекс Ак Жайык</p>
+                <span class="location-badge">С 10:00 до 18:00</span>
+            </div>
+            <div class="location-card">
+                <div class="location-icon">🏛️</div>
+                <h3>БЦ ЕРХАН</h3>
+                <p>19-й микрорайон, 8/1<br>Офис 102, 1 этаж</p>
+                <span class="location-badge">Центр города</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trainers Section -->
+    <section id="trainers" class="fade-in">
+        <div class="section-header">
+            <h2>Профессиональные тренеры</h2>
+            <p>Наши преподаватели — кандидаты в мастера спорта и призеры чемпионатов</p>
+        </div>
+        <div class="trainers-grid">
+            <div class="trainer-card">
+                <div class="trainer-image">👨‍🏫</div>
+                <div class="trainer-content">
+                    <h3>Валов Юрий Викторович</h3>
+                    <span class="trainer-title">Кандидат в мастера спорта</span>
+                    <div class="trainer-stats">
+                        <div class="trainer-stat">
+                            <div class="trainer-stat-value">30+</div>
+                            <div class="trainer-stat-label">Лет стажа</div>
+                        </div>
+                        <div class="trainer-stat">
+                            <div class="trainer-stat-value">КМС</div>
+                            <div class="trainer-stat-label">Разряд</div>
+                        </div>
+                    </div>
+                    <ul class="achievements">
+                        <li>Призер Костанайской области</li>
+                        <li>Воспитанники — призеры и чемпионы города</li>
+                        <li>Чемпионы Республики Казахстан</li>
+                        <li>Результаты за пределами РК</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="trainer-card">
+                <div class="trainer-image">👩‍🏫</div>
+                <div class="trainer-content">
+                    <h3>Брейткрейц Валерия</h3>
+                    <span class="trainer-title">Тренер-специалист</span>
+                    <div class="trainer-stats">
+                        <div class="trainer-stat">
+                            <div class="trainer-stat-value">3+</div>
+                            <div class="trainer-stat-label">Лет стажа</div>
+                        </div>
+                        <div class="trainer-stat">
+                            <div class="trainer-stat-value">1-е</div>
+                            <div class="trainer-stat-label">Место</div>
+                        </div>
+                    </div>
+                    <ul class="achievements">
+                        <li>Кубок Дармена Садвакасова — 3 место (2013)</li>
+                        <li>Турнир имени А. Махамбетова — 3 место (2014)</li>
+                        <li>Чемпионат г. Астана среди девушек — 1 место (2014)</li>
+                        <li>Чемпионат РК по рапиду — 3 место (2017)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="trainer-card">
+                <div class="trainer-image">👨‍🏫</div>
+                <div class="trainer-content">
+                    <h3>Сальменов Нурлан Куанышбаевич</h3>
+                    <span class="trainer-title">Призер областных турниров</span>
+                    <div class="trainer-stats">
+                        <div class="trainer-stat">
+                            <div class="trainer-stat-value">14+</div>
+                            <div class="trainer-stat-label">Лет стажа</div>
+                        </div>
+                        <div class="trainer-stat">
+                            <div class="trainer-stat-value">1994</div>
+                            <div class="trainer-stat-label">Призер Оренбурга</div>
+                        </div>
+                    </div>
+                    <ul class="achievements">
+                        <li>Призер Оренбургской области среди юношей (1994)</li>
+                        <li>Воспитанники — призеры города Астаны</li>
+                        <li>Чемпионат Казахстана — призовые места</li>
+                        <li>Чемпион Казахстана до 6 лет — Армангелди Ален</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Programs Section -->
+    <section id="programs" class="fade-in">
+        <div class="section-header">
+            <h2>Программы обучения</h2>
+            <p>Выберите подходящий формат занятий для себя или вашего ребенка</p>
+        </div>
+        <div class="programs-grid">
+            <div class="program-card">
+                <div class="program-icon">👶</div>
+                <h3>Детская группа (4-7 лет)</h3>
+                <p>Обучение шахматам с самых основ через игру и увлекательные задания</p>
+                <ul class="program-features">
+                    <li>Развитие логики и внимания</li>
+                    <li>Изучение фигур и правил</li>
+                    <li>Игровые формы обучения</li>
+                    <li>Малые группы до 8 человек</li>
+                </ul>
+            </div>
+
+            <div class="program-card featured">
+                <div class="program-icon">🎓</div>
+                <h3>Школьная группа (7-14 лет)</h3>
+                <p>Полноценная подготовка с нуля до 1-го разряда по классической системе</p>
+                <ul class="program-features">
+                    <li>Тактика и стратегия</li>
+                    <li>Разбор партий</li>
+                    <li>Подготовка к турнирам</li>
+                    <li>Дебютный репертуар</li>
+                    <li>Онлайн-поддержка</li>
+                </ul>
+            </div>
+
+            <div class="program-card">
+                <div class="program-icon">👨‍💼</div>
+                <h3>Взрослая группа</h3>
+                <p>Занятия для взрослых по выходным. Индивидуальный подход к каждому</p>
+                <ul class="program-features">
+                    <li>Гибкий график (выходные)</li>
+                    <li>Индивидуальные занятия</li>
+                    <li>Корпоративные турниры</li>
+                    <li>Онлайн-формат доступен</li>
+                </ul>
+            </div>
+
+            <div class="program-card">
+                <div class="program-icon">💻</div>
+                <h3>Онлайн-обучение</h3>
+                <p>Дистанционное обучение с различной интенсивностью подготовки</p>
+                <ul class="program-features">
+                    <li>Индивидуальные уроки</li>
+                    <li>Групповые занятия</li>
+                    <li>Разбор домашних заданий</li>
+                    <li>Турнирная практика онлайн</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section fade-in">
+        <div class="contact-grid">
+            <div class="contact-info">
+                <h2>Запишитесь на пробный урок</h2>
+                <p>Первое занятие бесплатно! Пригласите друга и получите скидку 5% на абонемент. Мы работаем каждый день и ждем вас в одном из наших филиалов.</p>
+                
+                <div class="contact-links">
+                    <a href="https://instagram.com/aktau.chess.school" target="_blank" class="contact-link">
+                        <div class="contact-link-icon">📷</div>
+                        <div>
+                            <strong>Instagram</strong>
+                            <div style="font-size: 0.9rem; opacity: 0.8;">@aktau.chess.school</div>
+                        </div>
+                    </a>
+                    <a href="https://debut.kz" target="_blank" class="contact-link">
+                        <div class="contact-link-icon">🌐</div>
+                        <div>
+                            <strong>Сайт</strong>
+                            <div style="font-size: 0.9rem; opacity: 0.8;">debut.kz</div>
+                        </div>
+                    </a>
+                    <a href="#" class="contact-link">
+                        <div class="contact-link-icon">📱</div>
+                        <div>
+                            <strong>WhatsApp</strong>
+                            <div style="font-size: 0.9rem; opacity: 0.8;">Написать сообщение</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="contact-form">
+                <h3 style="margin-bottom: 1.5rem; font-family: 'Playfair Display', serif; font-size: 1.8rem;">Оставить заявку</h3>
+                <form onsubmit="event.preventDefault(); alert('Заявка отправлена! Мы свяжемся с вами в ближайшее время.');">
+                    <div class="form-group">
+                        <label>Ваше имя</label>
+                        <input type="text" placeholder="Введите имя" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Телефон</label>
+                        <input type="tel" placeholder="+7 (XXX) XXX-XX-XX" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Возраст ученика</label>
+                        <select required>
+                            <option value="">Выберите возраст</option>
+                            <option value="4-6">4-6 лет</option>
+                            <option value="7-10">7-10 лет</option>
+                            <option value="11-14">11-14 лет</option>
+                            <option value="15+">15+ (взрослые)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Выберите филиал</label>
+                        <select required>
+                            <option value="">Выберите адрес</option>
+                            <option value="5mkr">5-й микрорайон, 38</option>
+                            <option value="akzhayik">ЖК Ак Жайык, 17 мкр</option>
+                            <option value="erhan">БЦ ЕРХАН, 19 мкр</option>
+                            <option value="online">Онлайн-обучение</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Комментарий</label>
+                        <textarea placeholder="Расскажите о ваших целях или задайте вопрос"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; border: none; cursor: pointer;">
+                        Отправить заявку
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Шахматная школа «Дебют»</h4>
+                <p>Единственная лицензированная шахматная школа в Актау. Обучаем детей и взрослых с 1990-х годов.</p>
+                <div class="social-links">
+                    <a href="https://instagram.com/aktau.chess.school" target="_blank" class="social-link">📷</a>
+                    <a href="#" class="social-link">💬</a>
+                    <a href="#" class="social-link">✈️</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Адреса в Актау</h4>
+                <a href="#">5-й микрорайон, 38</a>
+                <a href="#">17-й микрорайон, 18/2 (ЖК Ак Жайык)</a>
+                <a href="#">19-й микрорайон, 8/1, офис 102 (БЦ ЕРХАН)</a>
+            </div>
+            <div class="footer-section">
+                <h4>Другие города</h4>
+                <a href="#">Астана — debut.kz</a>
+                <a href="#">Алматы — шахматный клуб Дебют</a>
+            </div>
+            <div class="footer-section">
+                <h4>Контакты</h4>
+                <p>Работаем каждый день<br>С 10:00 до 18:00</p>
+                <p style="margin-top: 1rem;">Пробный урок — бесплатно!</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Шахматная школа «Дебют». Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Fade in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Mobile menu toggle
+        function toggleMenu() {
+            alert('Мобильное меню открыто');
+        }
+    </script>
+</body>
+</html>
