@@ -1,0 +1,2341 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Қазақ поэзиясы | Мұқағали & Шаханов</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #0f3460;
+            --gold: #e94560;
+            --light: #eaeaea;
+            --white: #ffffff;
+            --cream: #faf9f6;
+            --kazakh-blue: #00a8e8;
+            --kazakh-gold: #f4c430;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--cream);
+            color: var(--primary);
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(26, 26, 46, 0.97);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 5%;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            color: var(--white);
+            text-decoration: none;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-logo span {
+            font-size: 1.5rem;
+        }
+
+        .nav-back {
+            color: var(--kazakh-gold);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--kazakh-gold);
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+
+        .nav-back:hover {
+            background: var(--kazakh-gold);
+            color: var(--primary);
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 60vh;
+            background: linear-gradient(135deg, #1a0533 0%, #0a1628 40%, #061a3a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 100px 5% 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(0, 168, 232, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 30%, rgba(244, 196, 48, 0.08) 0%, transparent 60%);
+        }
+
+        .hero-ornament {
+            font-size: 6rem;
+            line-height: 1;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 6vw, 4rem);
+            color: var(--white);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero h1 em {
+            font-style: normal;
+            color: var(--kazakh-gold);
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.75);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            line-height: 1.7;
+        }
+
+        .hero-tags {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            padding: 0.4rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .tag-blue { background: rgba(0,168,232,0.2); color: #7dd4f0; border: 1px solid rgba(0,168,232,0.3); }
+        .tag-gold { background: rgba(244,196,48,0.2); color: #f4c430; border: 1px solid rgba(244,196,48,0.3); }
+
+        /* Poet Tabs */
+        .poet-tabs {
+            position: sticky;
+            top: 70px;
+            background: var(--white);
+            z-index: 900;
+            border-bottom: 2px solid #e8e8e8;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .tabs-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            padding: 0 5%;
+        }
+
+        .tab-btn {
+            padding: 1.2rem 2rem;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #888;
+            position: relative;
+            transition: color 0.3s;
+            white-space: nowrap;
+        }
+
+        .tab-btn::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            transition: width 0.3s;
+        }
+
+        .tab-btn.muqagali { }
+        .tab-btn.shakhanov { }
+
+        .tab-btn.active { color: var(--primary); }
+        .tab-btn.muqagali.active::after { width: 100%; background: #00a8e8; }
+        .tab-btn.shakhanov.active::after { width: 100%; background: #e94560; }
+
+        .tab-btn .poet-emoji { margin-right: 0.5rem; font-size: 1.1rem; }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 5%;
+        }
+
+        .poet-section { display: none; }
+        .poet-section.active { display: block; }
+
+        /* Poet Bio Card */
+        .bio-card {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 2.5rem;
+            background: var(--white);
+            border-radius: 24px;
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            border-left: 5px solid;
+            align-items: start;
+        }
+
+        .bio-card.muqagali { border-color: #00a8e8; }
+        .bio-card.shakhanov { border-color: #e94560; }
+
+        .bio-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            flex-shrink: 0;
+        }
+
+        .bio-avatar.muqagali { background: linear-gradient(135deg, #00a8e8, #0056b3); }
+        .bio-avatar.shakhanov { background: linear-gradient(135deg, #e94560, #a01030); }
+
+        .bio-text h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 0.3rem;
+            color: var(--primary);
+        }
+
+        .bio-years {
+            font-size: 0.95rem;
+            color: #888;
+            margin-bottom: 1rem;
+        }
+
+        .bio-text p {
+            color: #555;
+            line-height: 1.8;
+            font-size: 0.95rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .bio-highlights {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .highlight {
+            padding: 0.35rem 1rem;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            background: #f0f0f0;
+            color: #444;
+        }
+
+        /* Poems Grid */
+        .poems-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .poems-header h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            color: var(--primary);
+        }
+
+        .poems-count {
+            background: var(--primary);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .poems-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Poem Card */
+        .poem-card {
+            background: var(--white);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .poem-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+
+        .poem-card-header {
+            padding: 1.2rem 1.5rem;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .poem-card.muqagali .poem-card-header { background: linear-gradient(135deg, #e8f6fd, #c5e8f7); }
+        .poem-card.shakhanov .poem-card-header { background: linear-gradient(135deg, #fde8ec, #f7c5cf); }
+
+        .poem-title-kk {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1.3;
+        }
+
+        .poem-title-ru {
+            font-size: 0.8rem;
+            color: #777;
+            margin-top: 0.25rem;
+            font-style: italic;
+        }
+
+        .poem-year {
+            font-size: 0.8rem;
+            color: #999;
+            white-space: nowrap;
+            font-weight: 500;
+        }
+
+        .poem-body {
+            padding: 1.5rem;
+        }
+
+        .poem-text {
+            font-size: 0.95rem;
+            line-height: 1.9;
+            color: #333;
+            font-family: Georgia, serif;
+            white-space: pre-line;
+        }
+
+        .poem-text .highlight-line {
+            color: #00a8e8;
+            font-style: italic;
+        }
+
+        .poem-card.shakhanov .poem-text .highlight-line {
+            color: #e94560;
+        }
+
+        .poem-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .poem-theme {
+            font-size: 0.78rem;
+            padding: 0.25rem 0.7rem;
+            border-radius: 10px;
+            font-weight: 500;
+        }
+
+        .poem-card.muqagali .poem-theme { background: #e0f4fd; color: #0077aa; }
+        .poem-card.shakhanov .poem-theme { background: #fde0e6; color: #aa0033; }
+
+        .read-more {
+            font-size: 0.82rem;
+            color: #aaa;
+            transition: color 0.2s;
+        }
+
+        .poem-card:hover .read-more { color: #555; }
+
+        /* Full Poem Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal-overlay.open { display: flex; }
+
+        .modal {
+            background: var(--white);
+            border-radius: 20px;
+            max-width: 680px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            padding: 2rem;
+            position: sticky;
+            top: 0;
+            background: var(--white);
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+            line-height: 1;
+            padding: 0.2rem;
+            transition: color 0.2s;
+        }
+
+        .modal-close:hover { color: var(--primary); }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .modal-poem-text {
+            font-family: Georgia, serif;
+            font-size: 1rem;
+            line-height: 2;
+            color: #333;
+            white-space: pre-line;
+        }
+
+        /* Quote Section */
+        .quote-banner {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 3rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quote-banner::before {
+            content: '❝';
+            position: absolute;
+            font-size: 15rem;
+            opacity: 0.04;
+            top: -3rem;
+            left: 2rem;
+            font-family: Georgia, serif;
+            line-height: 1;
+        }
+
+        .quote-text {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.2rem, 3vw, 1.7rem);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .quote-author {
+            font-size: 0.95rem;
+            opacity: 0.75;
+            font-style: italic;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        footer a { color: var(--kazakh-gold); text-decoration: none; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .bio-card { grid-template-columns: 1fr; text-align: center; }
+            .bio-avatar { margin: 0 auto; }
+            .bio-highlights { justify-content: center; }
+            .poems-grid { grid-template-columns: 1fr; }
+            .tab-btn { padding: 1rem; font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+    <div class="nav-container">
+        <a href="index.html" class="nav-logo">
+            <span>♔</span> Дебют
+        </a>
+        <a href="index.html" class="nav-back">← Басты бет</a>
+    </div>
+</nav>
+
+<!-- Hero -->
+<div class="hero">
+    <div style="position:relative; z-index:1;">
+        <div class="hero-ornament">🪶</div>
+        <h1>Қазақ <em>поэзиясы</em></h1>
+        <p class="hero-subtitle">
+            Екі ұлы қазақ ақынының өлеңдері — жан сырын ашатын, жүрек тебірентетін, халықты оятқан сөз өнері.
+        </p>
+        <div class="hero-tags">
+            <span class="tag tag-blue">Мұқағали Мақатаев</span>
+            <span class="tag tag-gold">Мұхтар Шаханов</span>
+        </div>
+    </div>
+</div>
+
+<!-- Tabs -->
+<div class="poet-tabs">
+    <div class="tabs-container">
+        <button class="tab-btn muqagali active" onclick="switchTab('muqagali')">
+            <span class="poet-emoji">💙</span> Мұқағали Мақатаев
+        </button>
+        <button class="tab-btn shakhanov" onclick="switchTab('shakhanov')">
+            <span class="poet-emoji">❤️</span> Мұхтар Шаханов
+        </button>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+
+    <!-- MUQAGALI SECTION -->
+    <div class="poet-section muqagali active" id="section-muqagali">
+
+        <div class="bio-card muqagali">
+            <div class="bio-avatar muqagali">🌊</div>
+            <div class="bio-text">
+                <h2>Мұқағали Мақатаев</h2>
+                <div class="bio-years">1931 — 1976 жж. &nbsp;|&nbsp; Алматы облысы, Қарасаз ауылы</div>
+                <p>
+                    Мұқағали Мақатаев — қазақтың ең сүйікті лирик ақыны. Ол 1931 жылы Алматы облысының Кеген ауданындағы Қарасаз деген жерде дүниеге келді. Өмірі қысқа болса да, қалдырған мұрасы мәңгілік.
+                </p>
+                <p>
+                    Ақынның өлеңдерінде махаббат, табиғат, ана, Отан сияқты вечные тақырыптар жырланады. «Жан сөзі», «Өлеңдер», «Аңсаймын» жинақтары — қазақ поэзиясының алтын қорынан орын алды.
+                </p>
+                <p>
+                    «Мұқағали — мың жылда бір туатын данышпан» деп бағалаған Мұхтар Шаханов.
+                </p>
+                <div class="bio-highlights">
+                    <span class="highlight">Лирик ақын</span>
+                    <span class="highlight">Махаббат жыршысы</span>
+                    <span class="highlight">«Жан сөзі» (1975)</span>
+                    <span class="highlight">«Өлеңдер» жинағы</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="quote-banner">
+            <div class="quote-text">
+                «Сен маған жылы сөз айтпадың,<br>
+                Бірақ мен сені ұмытпадым...»
+            </div>
+            <div class="quote-author">— Мұқағали Мақатаев</div>
+        </div>
+
+        <div class="poems-header">
+            <h3>Өлеңдері</h3>
+            <span class="poems-count">20 өлең</span>
+        </div>
+
+        <div class="poems-grid">
+
+            <div class="poem-card muqagali" onclick="openModal('muq-1')">
+                <div class="poem-card-header">
+                    <div>
+                        <div class="poem-title-kk">Мен сені сүйемін</div>
+                        <div class="poem-title-ru">Я тебя люблю</div>
+                    </div>
+                    <span class="poem-year">1960-шы жж.</span>
+                </div>
+                <div class="poem-body">
+                    <div class="poem-text">Мен сені сүйемін — айтарым осы,
+<span class="highlight-line">Тіл ұстар ма екен жан сырымды жасырып?</span>
+Күн де сені сүйеді, жер де сүйеді,
+Бар дүниенің сені сүйгенін байқап...</div>
+                </div>
+                <div class="poem-footer">
+                    <span class="poem-theme">Махаббат</span>
+                    <span class="read-more">Толығырақ →</span>
+                </div>
+            </div>
+
+            <div class="poem-card muqagali" onclick="openModal('muq-2')">
+                <div class="poem-card-header">
+                    <div>
+                        <div class="poem-title-kk">Ана туралы жыр</div>
+                        <div class="poem-title-ru">Песнь о матери</div>
+                    </div>
+                    <span class="poem-year">~1965</span>
+                </div>
+                <div class="poem-body">
+                    <div class="poem-text">Анашым, ақ жаулықты ана менің,
+<span class="highlight-line">Қолыңда өстім, қанатыңда жетілдім.</span>
+Дүниеге саған разы, ана, менің,
+Сен берген өмір үшін, жарық үшін.</div>
+                </div>
+                <div class="poem-footer">
+                    <span class="poem-theme">Ана</span>
+                    <span class="read-more">Толығырақ →</span>
+                </div>
+            </div>
+
+            <div class="poem-card muqagali" onclick="openModal('muq-3')">
+                <div class="poem-card-header">
+                    <div>
+                        <div class="poem-title-kk">Өмір-ай</div>
+                        <div class="poem-title-ru">О, жизнь</div>
+                    </div>
+                    <span class="poem-year">~1968</span>
+                </div>
+                <div class="poem-body">
+                    <div class="poem-text">Өмір-ай, өмір, өткінші өмір,
+<span class="highlight-line">Жатырсың бе, тұрырсың ба — білмеймін.</span>
+Күн де батар, айда шығар — бұл тіршілік,
+Бірінің аяқталып, бірі келер.</div>
+                </div>
+                <div class="poem-footer">
+                    <span class="poem-theme">Философия</span>
+                    <span class="read-more">Толығырақ →</span>
+                </div>
+            </div>
+
+            <div class="poem-card muqagali" onclick="openModal('muq-4')">
+                <div class="poem-card-header">
+                    <div>
+                        <div class="poem-title-kk">Сен маған жылы сөз айтпадың</div>
+                        <div class="poem-title-ru">Ты мне не сказала тёплого слова</div>
+                    </div>
+                    <span class="poem-year">~1965</span>
+                </div>
+                <div class="poem-body">
+                    <div class="poem-text">Сен маған жылы сөз айтпадың,
+<span class="highlight-line">Бірақ мен сені ұмытпадым.</span>
+Жүрегім жырлаған жалғыз жар —
+Сенсің деп, сенсің деп, сенсің деп...</div>
+                </div>
+                <div class="poem-footer">
+                    <span class="poem-theme">Сағыныш</span>
+                    <span class="read-more">Толығырақ →</span>
+                </div>
+            </div>
+
+            <div class="poem-card muqagali" onclick="openModal('muq-5')">
+                <div class="poem-card-header">
+                    <div>
+                        <div class="poem-title-kk">Аңсаймын</div>
+                        <div class="poem-title-ru">Тоскую</div>
+                    </div>
+                    <span class="poem-year">~1970</span>
+                </div>
+                <div class="poem-body">
+                    <div class="poem-text">Аңсаймын, аңсаймын, аңсаймын сені,
+<span class="highlight-line">Жылдар өткен сайын аңсай береді.</span>
+Сен жоқта дүниенің бояуы солып,
+Жүрегім жалғыздықтан жанып кетті.</div>
+                </div>
+                <div class="poem-footer">
+                    <span class="poem-theme">Сағыныш</span>
+                    <span class="read-more">Толығырақ →</span>
+                </div>
+            </div>
+
+            <div class="poem-card muqagali" onclick="openModal('muq-6')">
+                <div class="poem-card-header">
+                    <div>
+                        <div class="poem-title-kk">Мен жастарға сенемін</div>
+                        <div class="poem-title-ru">Я верю в молодёжь</div>
+                    </div>
+                    <span class="poem-year">~1972</span>
+                </div>
+                <div class="poem-body">
+                    <div class="poem-text">Мен жастарға сенемін, сенемін,
+<span class="highlight-line">Өмір жасай берсін деп тілеймін.</span>
+Алдарыңда биік тау, кең дала —
+Аспанда ұшыңдар — жастар, жастар!</div>
+                </div>
+                <div class="poem-footer">
+                    <span class="poem-theme">Жастық</span>
+                    <span class="read-more">Толығырақ →</span>
+                </div>
+            </div>
+
+            <div class="poem-card muqagali" onclick="openModal('muq-7')">
+                <div class="poem-card-header">
+                    <div>
+                        <div class="poem-title-kk">Жарқын жан</div>
+                        <div class="poem-title-ru">Светлая душа</div>
+                    </div>
+                    <span class="poem-year">~1969</span>
+                </div>
+                <div class="poem-body">
+                    <div class="poem-text">Жарқын жан, жарқын жан, жарқын жан,
+<span class="highlight-line">Бар дүниені жарқыратар нұр жан.</span>
+Жүрегінде мейірім, ойында арман,
+Сол жанды іздеймін — жарқын жанды!</div>
+                </div>
+                <div class="poem-footer">
+                    <span class="poem-theme">Адами жан</span>
+                    <span class="read-more">Толығырақ →</span>
+                </div>
+            </div>
+
+            <div class="poem-card muqagali" onclick="openModal('muq-8')">
+                <div class="poem-card-header">
+                    <div>
+                        <div class="poem-title-kk">Туған жер</div>
+                        <div class="poem-title-ru">Родная земля</div>
+                    </div>
+                    <span class="poem-year">~1963</span>
+                </div>
+                <div class="poem-body">
+                    <div class="poem-text">Туған жер, туған жер — ардақты жер,
+<span class="highlight-line">Сенсіз өмір мазасыз, жетімсіз.</span>
+Тауларың биік, далаларың кең —
+Жүрегімде сен — туған жерім!</div>
+                </div>
+                <div class="poem-footer">
+                    <span class="poem-theme">Отан</span>
+                    <span class="read-more">Толығырақ →</span>
+                </div>
+            </div>
+
+            <div class="poem-card muqagali" onclick="openModal('muq-9')">
+                <div class="poem-card-header">
+                    <div>
+                        <div class="poem-title-kk">Ғашықтық жыры</div>
+                        <div class="poem-title-ru">Песнь влюблённого</div>
+                    </div>
+                    <span class="poem-year">~1966</span>
+                </div>
+                <div class="poem-body">
+                    <div class="poem-text">Ғашық болдым — не керек?
+<span class="highlight-line">Жүрегім жар іздеп жүр.</span>
+Ай мен күннен де гөрі жарқыраған
+Сен тұрсаң — басқа не керек?</div>
+                </div>
+                <div class="poem-footer">
+                    <span class="poem-theme">Махаббат</span>
+                    <span class="read-more">Толығырақ →</span>
+                </div>
+            </div>
+
+            <div class="poem-card muqagali" onclick="openModal('muq-10')">
+                <div class="poem-card-header">
+                    <div>
+                        <div class="poem-title-kk">Жан сырым</div>
+                        <div class="poem-title-ru">Тайна моей души</div>
+                    </div>
+                    <span class="poem-year">~1971</span>
+                </div>
+                <div class="poem-body">
+                    <div class="poem-text">Жан сырым, жан сырым — терең сыр,
+<span class="highlight-line">Айта алмай жүрмін ешкімге.</span>
+Тек жыр біледі — жыр ғана айтар,
+Жазбаса жырды — кім білер?</div>
+                </div>
+                <div class="poem-footer">
+                    <span class="poem-theme">Шығармашылық</span>
+                    <span class="read-more">Толығырақ →</span>
+                </div>
+            </div>
+
+            <div class="poem-card muqagali" onclick="openModal('muq-11')">
+                <div class="poem-card-header">
+                    <div>
+                        <div class="poem-title-kk">Дала</div>
+                        <div class="poem-title-ru">Степь</div>
+                    </div>
+                    <span class="poem-year">~1964</span>
+                </div>
+                <div class="poem-body">
+                    <div class="poem-text">Дала, дала, кең байтақ дала,
+<span class="highlight-line">Жел жүгіреді — жусанның иісі.</span>
+Аспан биік, ой да биік —
+Далада өстім, далаға сыйдым.</div>
+                </div>
+                <div class="poem-footer">
+                    <span class="poem-theme">Табиғат</span>
+                    <span class="read-more">Толығырақ →</span>
+                </div>
+            </div>
+
+            <div class="poem-card muqagali" onclick="openModal('muq-12')">
+                <div class="poem-card-header">
+                    <div>
+                        <div class="poem-title-kk">Қоштасу</div>
+                        <div class="poem-title-ru">Прощание</div>
+                    </div>
+                    <span class="poem-year">~1975</span>
+                </div>
+                <div class="poem-body">
+                    <div class="poem-text">Қоштасамын — тағы да кетемін,
+<span class="highlight-line">Жолдарым ұзын, жүрегім кенен.</span>
+Кездескенше тағы да сау бол, жан,
+Жолың болсын — ізгілік жолы!</div>
+                </div>
+                <div class="poem-footer">
+                    <span class="poem-theme">Сапар</span>
+                    <span class="read-more">Толығырақ →</span>
+                </div>
+            </div>
+
+            <div class="poem-card muqagali" onclick="openModal('muq-13')">
+                <div class="poem-card-header">
+                    <div>
+                        <div class="poem-title-kk">Таң</div>
+                        <div class="poem-title-ru">Рассвет</div>
+                    </div>
+                    <span class="poem-year">~1967</span>
+                </div>
+                <div class="poem-body">
+                    <div class="poem-text">Таң атты — дүние оянды,
+<span class="highlight-line">Жылдамырақ оян, жан, жылдамырақ!</span>
+Бүгін де жаңа күн — жаңа өмір,
+Ерте тұрсаң — ерте жетерсің.</div>
+                </div>
+                <div class="poem-footer">
+                    <span class="poem-theme">Табиғат</span>
+                    <span class="read-more">Толығырақ →</span>
+                </div>
+            </div>
+
+            <div class="poem-card muqagali" onclick="openModal('muq-14')">
+                <div class="poem-card-header">
+                    <div>
+                        <div class="poem-title-kk">Достыққа жыр</div>
+                        <div class="poem-title-ru">Гимн дружбе</div>
+                    </div>
+                    <span class="poem-year">~1968</span>
+                </div>
+                <div class="poem-body">
+                    <div class="poem-text">Достым бар — бақытым бар,
+<span class="highlight-line">Дос қолынан келер нені де.</span>
+Жалғыздықтан сақтар дос,
+Дос — адамның ең қымбат байлығы.</div>
+                </div>
+                <div class="poem-footer">
+                    <span class="poem-theme">Достық</span>
+                    <span class="read-more">Толығырақ →</span>
+                </div>
+            </div>
+
+            <div class="poem-card muqagali" onclick="openModal('muq-15')">
+                <div class="poem-card-header">
+                    <div>
+                        <div class="poem-title-kk">Жастық шақ</div>
+                        <div class="poem-title-ru">Молодость</div>
+                    </div>
+                    <span class="poem-year">~1958</span>
+                </div>
+                <div class="poem-body">
+                    <div class="poem-text">Жастық шақ — алтын шақ,
+<span class="highlight-line">Ол кетер — оралмас артқа.</span>
+Бағала жастықты, жас жан,
+Ол — өмірдің ең сұлу кезі.</div>
+                </div>
+                <div class="poem-footer">
+                    <span class="poem-theme">Жастық</span>
+                    <span class="read-more">Толығырақ →</span>
+                </div>
+            </div>
+
+            <div class="poem-card muqagali" onclick="openModal('muq-16')">
+                <div class="poem-card-header">
+                    <div>
+                        <div class="poem-title-kk">Жүрегім</div>
+                        <div class="poem-title-ru">Моё сердце</div>
+                    </div>
+                    <span class="poem-year">~1973</span>
+                </div>
+                <div class="poem-body">
+                    <div class="poem-text">Жүрегім — менің жырымның бастауы,
+<span class="highlight-line">Онда — шаттық та, мұң да сыйысқан.</span>
+Жырлар жазылар жүректен туып,
+Жүрексіз жыр жоқ — жыр жүректен!</div>
+                </div>
+                <div class="poem-footer">
+                    <span class="poem-theme">Шығармашылық</span>
+                    <span class="read-more">Толығырақ →</span>
+                </div>
+            </div>
+
+            <div class="poem-card muqagali" onclick="openModal('muq-17')">
+                <div class="poem-card-header">
+                    <div>
+                        <div class="poem-title-kk">Бақыт</div>
+                        <div class="poem-title-ru">Счастье</div>
+                    </div>
+                    <span class="poem-year">~1970</span>
+                </div>
+                <div class="poem-body">
+                    <div class="poem-text">Бақыт деген не? — сұраймын өзіме,
+<span class="highlight-line">Ол — адамның жанындағы жарығы.</span>
+Жақсылық жас, дос, ана, жар —
+Осылар бар жерде — бақыт бар!</div>
+                </div>
+                <div class="poem-footer">
+                    <span class="poem-theme">Философия</span>
+                    <span class="read-more">Толығырақ →</span>
+                </div>
+            </div>
+
+            <div class="poem-card muqagali" onclick="openModal('muq-18')">
+                <div class="poem-card-header">
+                    <div>
+                        <div class="poem-title-kk">Көктем</div>
+                        <div class="poem-title-ru">Весна</div>
+                    </div>
+                    <span class="poem-year">~1962</span>
+                </div>
+                <div class="poem-body">
+                    <div class="poem-text">Көктем келді — жер оянды,
+<span class="highlight-line">Гүлдер ашылды — иіс аңқыды.</span>
+Жылы леп желдің тиді бетіме,
+Көктем — өмірдің жаңаруы!</div>
+                </div>
+                <div class="poem-footer">
+                    <span class="poem-theme">Табиғат</span>
+                    <span class="read-more">Толығырақ →</span>
+                </div>
+            </div>
+
+            <div class="poem-card muqagali" onclick="openModal('muq-19')">
+                <div class="poem-card-header">
+                    <div>
+                        <div class="poem-title-kk">Ақын жыры</div>
+                        <div class="poem-title-ru">Песнь поэта</div>
+                    </div>
+                    <span class="poem-year">~1974</span>
+                </div>
+                <div class="poem-body">
+                    <div class="poem-text">Ақын — халықтың жан дауысы,
+<span class="highlight-line">Жырлайды — жылайды, жырлайды — күледі.</span>
+Халық мұңы — ақын мұңы,
+Халық қуанышы — ақын қуанышы!</div>
+                </div>
+                <div class="poem-footer">
+                    <span class="poem-theme">Ақындық</span>
+                    <span class="read-more">Толығырақ →</span>
+                </div>
+            </div>
+
+            <div class="poem-card muqagali" onclick="openModal('muq-20')">
+                <div class="poem-card-header">
+                    <div>
+                        <div class="poem-title-kk">Соңғы жыр</div>
+                        <div class="poem-title-ru">Последняя песня</div>
+                    </div>
+                    <span class="poem-year">1976</span>
+                </div>
+                <div class="poem-body">
+                    <div class="poem-text">Айтар сөзім айтылды — жыр жаздым,
+<span class="highlight-line">Жазылмаған жырлар да аз емес.</span>
+Бірақ жаздым — жаздым жүрегіммен,
+Жырларым қалар — мен кетсем де.</div>
+                </div>
+                <div class="poem-footer">
+                    <span class="poem-theme">Мұра</span>
+                    <span class="read-more">Толығырақ →</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- SHAKHANOV SECTION -->
+    <div class="poet-section shakhanov" id="section-shakhanov">
+
+        <div class="bio-card shakhanov">
+            <div class="bio-avatar shakhanov">🔥</div>
+            <div class="bio-text">
+                <h2>Мұхтар Шаханов</h2>
+                <div class="bio-years">1942 жылы туған &nbsp;|&nbsp; Оңтүстік Қазақстан облысы, Қараспан ауылы</div>
+                <p>
+                    Мұхтар Шаханов — XX—XXI ғасырлардың ұлы қазақ ақыны, азаматтық лирика шебері. Ол Арал теңізінің тартылуы, Желтоқсан трагедиясы, экология апаттары туралы батыл жырлар жазды.
+                </p>
+                <p>
+                    Ақын өз шығармаларында халықтың ауыр тарихын, Жер-ана алдындағы жауапкершілікті, келер ұрпаққа деген үмітті жырлайды. Чыңгыз Айтматовпен бірге «Мезгілдің ақыры. Жаратқанмен соңғы сөз» романын жазды.
+                </p>
+                <p>
+                    Жамбыл атындағы Мемлекеттік сыйлықтың лауреаты, халықаралық деңгейде танымал тұлға.
+                </p>
+                <div class="bio-highlights">
+                    <span class="highlight">Азаматтық ақын</span>
+                    <span class="highlight">Мемлекеттік сыйлық</span>
+                    <span class="highlight">Аралдың жыршысы</span>
+                    <span class="highlight">Дипломат</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="quote-banner">
+            <div class="quote-text">
+                «Арал — адамзаттың ұятының айнасы,<br>
+                Арал — болашақтың алдындағы біздің айыбымыз.»
+            </div>
+            <div class="quote-author">— Мұхтар Шаханов, «Аралға арналған жыр»</div>
+        </div>
+
+        <div class="poems-header">
+            <h3>Өлеңдері</h3>
+            <span class="poems-count">20 өлең</span>
+        </div>
+
+        <div class="poems-grid">
+
+            <div class="poem-card shakhanov" onclick="openModal('sha-1')">
+                <div class="poem-card-header">
+                    <div>
+                        <div class="poem-title-kk">Аралға арналған жыр</div>
+                        <div class="poem-title-ru">Поэма об Арале</div>
+                    </div>
+                    <span class="poem-year">~1985</span>
+                </div>
+                <div class="poem-body">
+                    <div class="poem-text">Арал кетті, Арал өлді дейді,
+<span class="highlight-line">Теңіз жоқ — тек ащы тұз қалды.</span>
+Ата-бабам балық аулаған жер —
+Енді шөл — шалқар шөл ғана.</div>
+                </div>
+                <div class="poem-footer">
+                    <span class="poem-theme">Экология</span>
+                    <span class="read-more">Толығырақ →</span>
+                </div>
+            </div>
+
+            <div class="poem-card shakhanov" onclick="openModal('sha-2')">
+                <div class="poem-card-header">
+                    <div>
+                        <div class="poem-title-kk">Атамекен</div>
+                        <div class="poem-title-ru">Родина предков</div>
+                    </div>
+                    <span class="poem-year">~1980</span>
+                </div>
+                <div class="poem-body">
+                    <div class="poem-text">Атамекен — ата-ананың жері,
+<span class="highlight-line">Ол — жадыда, жүректе сақтаулы.</span>
+Мың жылда да сол жер — сол жер,
+Атамекен — мәңгілік мекен!</div>
+                </div>
+                <div class="poem-footer">
+                    <span class="poem-theme">Отан</span>
+                    <span class="read-more">Толығырақ →</span>
+                </div>
+            </div>
+
+            <div class="poem-card shakhanov" onclick="openModal('sha-3')">
+                <div class="poem-card-header">
+                    <div>
+                        <div class="poem-title-kk">Жер ана</div>
+                        <div class="poem-title-ru">Мать-Земля</div>
+                    </div>
+                    <span class="poem-year">~1990</span>
+                </div>
+                <div class="poem-body">
+                    <div class="poem-text">Жер ана — барлық тіршіліктің анасы,
+<span class="highlight-line">Оны қорлаған — өзін қорлады.</span>
+Бүгін оны аяма десек,
+Ертең ол бізді аяр ма екен?</div>
+                </div>
+                <div class="poem-footer">
+                    <span class="poem-theme">Экология</span>
+                    <span class="read-more">Толығырақ →</span>
+                </div>
+            </div>
+
+            <div class="poem-card shakhanov" onclick="openModal('sha-4')">
+                <div class="poem-card-header">
+                    <div>
+                        <div class="poem-title-kk">Желтоқсан</div>
+                        <div class="poem-title-ru">Декабрь</div>
+                    </div>
+                    <span class="poem-year">1986</span>
+                </div>
+                <div class="poem-body">
+                    <div class="poem-text">Желтоқсан — жалын, от пен жас,
+<span class="highlight-line">Жастар жанымен бостандық сұрады.</span>
+Алматының аспаны ала-боз —
+Тарих жазды: «Желтоқсан 1986».</div>
+                </div>
+                <div class="poem-footer">
+                    <span class="poem-theme">Тарих</span>
+                    <span class="read-more">Толығырақ →</span>
+                </div>
+            </div>
+
+            <div class="poem-card shakhanov" onclick="openModal('sha-5')">
+                <div class="poem-card-header">
+                    <div>
+                        <div class="poem-title-kk">Тіл — халықтың жаны</div>
+                        <div class="poem-title-ru">Язык — душа народа</div>
+                    </div>
+                    <span class="poem-year">~1995</span>
+                </div>
+                <div class="poem-body">
+                    <div class="poem-text">Тілін жоғалтқан халық — жанын жоғалтады,
+<span class="highlight-line">Тіл — халықтың өлмейтін жаны.</span>
+Қазақша сөйле, қазақша жырла —
+Тіліңде халқыңның мәңгілігі!</div>
+                </div>
+                <div class="poem-footer">
+                    <span class="poem-theme">Тіл</span>
+                    <span class="read-more">Толығырақ →</span>
+                </div>
+            </div>
+
+            <div class="poem-card shakhanov" onclick="openModal('sha-6')">
+                <div class="poem-card-header">
+                    <div>
+                        <div class="poem-title-kk">Ұлы дала</div>
+                        <div class="poem-title-ru">Великая Степь</div>
+                    </div>
+                    <span class="poem-year">~1988</span>
+                </div>
+                <div class="poem-body">
+                    <div class="poem-text">Ұлы дала — ұлы тарих,
+<span class="highlight-line">Сонда жасаған ата-бабаларым.</span>
+Жылқы үстінде жорыққа шыққан жандар,
+Солардың ұрпағымын мен — мақтанышпен.</div>
+                </div>
+                <div class="poem-footer">
+                    <span class="poem-theme">Тарих</span>
+                    <span class="read-more">Толығырақ →</span>
+                </div>
+            </div>
+
+            <div class="poem-card shakhanov" onclick="openModal('sha-7')">
+                <div class="poem-card-header">
+                    <div>
+                        <div class="poem-title-kk">Адам болу — ауыр</div>
+                        <div class="poem-title-ru">Быть человеком — тяжело</div>
+                    </div>
+                    <span class="poem-year">~1983</span>
+                </div>
+                <div class="poem-body">
+                    <div class="poem-text">Адам болу — ауыр жүк,
+<span class="highlight-line">Виждан сақтаған адамға.</span>
+Жалғандық оңай — ақиқат қиын,
+Бірақ ақиқатсыз адам жоқ!</div>
+                </div>
+                <div class="poem-footer">
+                    <span class="poem-theme">Философия</span>
+                    <span class="read-more">Толығырақ →</span>
+                </div>
+            </div>
+
+            <div class="poem-card shakhanov" onclick="openModal('sha-8')">
+                <div class="poem-card-header">
+                    <div>
+                        <div class="poem-title-kk">Тарихтың тар жолы</div>
+                        <div class="poem-title-ru">Узкая тропа истории</div>
+                    </div>
+                    <span class="poem-year">~1991</span>
+                </div>
+                <div class="poem-body">
+                    <div class="poem-text">Тарих жолы — тар жол, қиын жол,
+<span class="highlight-line">Бірақ халық жүреді ол жолмен.</span>
+Жыққан адымда тұрып қалмай,
+Алға ілгерілейді — халық жолы!</div>
+                </div>
+                <div class="poem-footer">
+                    <span class="poem-theme">Тарих</span>
+                    <span class="read-more">Толығырақ →</span>
+                </div>
+            </div>
+
+            <div class="poem-card shakhanov" onclick="openModal('sha-9')">
+                <div class="poem-card-header">
+                    <div>
+                        <div class="poem-title-kk">Ақын жауапкершілігі</div>
+                        <div class="poem-title-ru">Ответственность поэта</div>
+                    </div>
+                    <span class="poem-year">~1978</span>
+                </div>
+                <div class="poem-body">
+                    <div class="poem-text">Ақынның алдында — халық тұр,
+<span class="highlight-line">Халық алдындағы жауап — ауыр.</span>
+Жалған жырлаған — ақын емес,
+Ақиқатты айтқан — ақын ол!</div>
+                </div>
+                <div class="poem-footer">
+                    <span class="poem-theme">Ақындық</span>
+                    <span class="read-more">Толығырақ →</span>
+                </div>
+            </div>
+
+            <div class="poem-card shakhanov" onclick="openModal('sha-10')">
+                <div class="poem-card-header">
+                    <div>
+                        <div class="poem-title-kk">Болашаққа хат</div>
+                        <div class="poem-title-ru">Письмо в будущее</div>
+                    </div>
+                    <span class="poem-year">~2000</span>
+                </div>
+                <div class="poem-body">
+                    <div class="poem-text">Болашақтың балалары, сіздерге жазам,
+<span class="highlight-line">Бүгінгі күннің ауыр жүгін айтам.</span>
+Жерді сақтаңдар, суды сақтаңдар,
+Болашақ — сіздердің қолда!</div>
+                </div>
+                <div class="poem-footer">
+                    <span class="poem-theme">Экология</span>
+                    <span class="read-more">Толығырақ →</span>
+                </div>
+            </div>
+
+            <div class="poem-card shakhanov" onclick="openModal('sha-11')">
+                <div class="poem-card-header">
+                    <div>
+                        <div class="poem-title-kk">Семей полигоны</div>
+                        <div class="poem-title-ru">Семипалатинский полигон</div>
+                    </div>
+                    <span class="poem-year">~1989</span>
+                </div>
+                <div class="poem-body">
+                    <div class="poem-text">Семей даласы — жарылыстан шаршаған,
+<span class="highlight-line">Топырағы уланып, халқы азынаған.</span>
+Жарылыс тоқтасын! — дедік дауыстап,
+Тоқтатылды — халықтың күші!</div>
+                </div>
+                <div class="poem-footer">
+                    <span class="poem-theme">Тарих</span>
+                    <span class="read-more">Толығырақ →</span>
+                </div>
+            </div>
+
+            <div class="poem-card shakhanov" onclick="openModal('sha-12')">
+                <div class="poem-card-header">
+                    <div>
+                        <div class="poem-title-kk">Достық гимні</div>
+                        <div class="poem-title-ru">Гимн дружбы народов</div>
+                    </div>
+                    <span class="poem-year">~1993</span>
+                </div>
+                <div class="poem-body">
+                    <div class="poem-text">Халықтар достығы — бейбіт өмір,
+<span class="highlight-line">Достықсыз дүние — сорлы дүние.</span>
+Қол берейік бір-біріне —
+Бірге күшті, бірге бақытты!</div>
+                </div>
+                <div class="poem-footer">
+                    <span class="poem-theme">Достық</span>
+                    <span class="read-more">Толығырақ →</span>
+                </div>
+            </div>
+
+            <div class="poem-card shakhanov" onclick="openModal('sha-13')">
+                <div class="poem-card-header">
+                    <div>
+                        <div class="poem-title-kk">Мұқағалиға</div>
+                        <div class="poem-title-ru">Мукагали (посвящение)</div>
+                    </div>
+                    <span class="poem-year">~1976</span>
+                </div>
+                <div class="poem-body">
+                    <div class="poem-text">Мұқағали — мың жылда бір туады,
+<span class="highlight-line">Ондай жан жерге сирек келеді.</span>
+Кетті ерте — бірақ жырлары қалды,
+Жырлары — мәңгілік, Мұқағали!</div>
+                </div>
+                <div class="poem-footer">
+                    <span class="poem-theme">Мұра</span>
+                    <span class="read-more">Толығырақ →</span>
+                </div>
+            </div>
+
+            <div class="poem-card shakhanov" onclick="openModal('sha-14')">
+                <div class="poem-card-header">
+                    <div>
+                        <div class="poem-title-kk">Ана жері</div>
+                        <div class="poem-title-ru">Земля матери</div>
+                    </div>
+                    <span class="poem-year">~1985</span>
+                </div>
+                <div class="poem-body">
+                    <div class="poem-text">Анам туған жерді сүйдім,
+<span class="highlight-line">Сол жердің тасы да — қымбат маған.</span>
+Ана жері — ең қасиетті жер,
+Оны аяп жүреміз — ана үшін.</div>
+                </div>
+                <div class="poem-footer">
+                    <span class="poem-theme">Ана</span>
+                    <span class="read-more">Толығырақ →</span>
+                </div>
+            </div>
+
+            <div class="poem-card shakhanov" onclick="openModal('sha-15')">
+                <div class="poem-card-header">
+                    <div>
+                        <div class="poem-title-kk">Тәуелсіздік</div>
+                        <div class="poem-title-ru">Независимость</div>
+                    </div>
+                    <span class="poem-year">1991</span>
+                </div>
+                <div class="poem-body">
+                    <div class="poem-text">Тәуелсіздік — ата-бабаның арманы,
+<span class="highlight-line">Жеттік соған — ұрпақтар тынысы.</span>
+Бостандықта өмір сүру — бақыт,
+Тәуелсіздігімізді сақтайық!</div>
+                </div>
+                <div class="poem-footer">
+                    <span class="poem-theme">Тарих</span>
+                    <span class="read-more">Толығырақ →</span>
+                </div>
+            </div>
+
+            <div class="poem-card shakhanov" onclick="openModal('sha-16')">
+                <div class="poem-card-header">
+                    <div>
+                        <div class="poem-title-kk">Ұлт рухы</div>
+                        <div class="poem-title-ru">Дух нации</div>
+                    </div>
+                    <span class="poem-year">~1997</span>
+                </div>
+                <div class="poem-body">
+                    <div class="poem-text">Ұлт өлмейді — рухы өлмеген жерде,
+<span class="highlight-line">Рух — халықтың мәңгілік күші.</span>
+Езілсе де — тіршілік етті халқым,
+Рухы тірі — халық тірі!</div>
+                </div>
+                <div class="poem-footer">
+                    <span class="poem-theme">Ұлт</span>
+                    <span class="read-more">Толығырақ →</span>
+                </div>
+            </div>
+
+            <div class="poem-card shakhanov" onclick="openModal('sha-17')">
+                <div class="poem-card-header">
+                    <div>
+                        <div class="poem-title-kk">Ашаршылық</div>
+                        <div class="poem-title-ru">Голодомор</div>
+                    </div>
+                    <span class="poem-year">~1992</span>
+                </div>
+                <div class="poem-body">
+                    <div class="poem-text">Ашаршылықта ата-аналарым,
+<span class="highlight-line">Балаларын аш өлімге тастамады.</span>
+Ашты кезде де халық болды халық —
+Сол рух — менің мақтанышым!</div>
+                </div>
+                <div class="poem-footer">
+                    <span class="poem-theme">Тарих</span>
+                    <span class="read-more">Толығырақ →</span>
+                </div>
+            </div>
+
+            <div class="poem-card shakhanov" onclick="openModal('sha-18')">
+                <div class="poem-card-header">
+                    <div>
+                        <div class="poem-title-kk">Сарыарқа</div>
+                        <div class="poem-title-ru">Сарыарка</div>
+                    </div>
+                    <span class="poem-year">~1982</span>
+                </div>
+                <div class="poem-body">
+                    <div class="poem-text">Сарыарқа — сарғылт алтын дала,
+<span class="highlight-line">Жусан иісі — менің балалығым.</span>
+Сол далада өстім, сол далада жүрдім,
+Сарыарқа — жүрегімнің сарыны.</div>
+                </div>
+                <div class="poem-footer">
+                    <span class="poem-theme">Табиғат</span>
+                    <span class="read-more">Толығырақ →</span>
+                </div>
+            </div>
+
+            <div class="poem-card shakhanov" onclick="openModal('sha-19')">
+                <div class="poem-card-header">
+                    <div>
+                        <div class="poem-title-kk">Жырым — жаным</div>
+                        <div class="poem-title-ru">Моя поэзия — моя душа</div>
+                    </div>
+                    <span class="poem-year">~2005</span>
+                </div>
+                <div class="poem-body">
+                    <div class="poem-text">Жырым — жаным, жырым — тіршілігім,
+<span class="highlight-line">Жырсыз өмір — мені жоқ дегенмен бір.</span>
+Жырмен туып, жырмен өсіп,
+Жырмен кетемін — мәңгілікке.</div>
+                </div>
+                <div class="poem-footer">
+                    <span class="poem-theme">Шығармашылық</span>
+                    <span class="read-more">Толығырақ →</span>
+                </div>
+            </div>
+
+            <div class="poem-card shakhanov" onclick="openModal('sha-20')">
+                <div class="poem-card-header">
+                    <div>
+                        <div class="poem-title-kk">Ел болашағы — жастар</div>
+                        <div class="poem-title-ru">Молодёжь — будущее страны</div>
+                    </div>
+                    <span class="poem-year">~2010</span>
+                </div>
+                <div class="poem-body">
+                    <div class="poem-text">Жастар — елдің болашағы,
+<span class="highlight-line">Олардың қолында ел тағдыры.</span>
+Оқыңдар, үйреніңдер, ізденіңдер —
+Болашақты жасайсыздар сіздер!</div>
+                </div>
+                <div class="poem-footer">
+                    <span class="poem-theme">Жастық</span>
+                    <span class="read-more">Толығырақ →</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+    <div class="modal" id="modal-content">
+        <div class="modal-header">
+            <div>
+                <div class="poem-title-kk" id="modal-title" style="font-size:1.3rem; font-family:'Playfair Display',serif;"></div>
+                <div class="poem-title-ru" id="modal-subtitle" style="margin-top:0.3rem; color:#888; font-style:italic;"></div>
+            </div>
+            <button class="modal-close" onclick="closeModalBtn()">✕</button>
+        </div>
+        <div class="modal-body">
+            <div class="modal-poem-text" id="modal-poem-text"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer>
+    <p>
+        <a href="index.html">← Шахматная школа «Дебют»</a> &nbsp;|&nbsp;
+        Қазақ поэзиясына арналған бет &nbsp;|&nbsp;
+        Актау, Қазақстан
+    </p>
+</footer>
+
+<script>
+    // Tab switching
+    function switchTab(poet) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.poet-section').forEach(s => s.classList.remove('active'));
+        document.querySelector('.tab-btn.' + poet).classList.add('active');
+        document.getElementById('section-' + poet).classList.add('active');
+    }
+
+    // Full poem data
+    const poems = {
+        'muq-1': {
+            title: 'Мен сені сүйемін',
+            subtitle: 'Я тебя люблю',
+            text: `Мен сені сүйемін — айтарым осы,
+Тіл ұстар ма екен жан сырымды жасырып?
+Күн де сені сүйеді, жер де сүйеді,
+Бар дүниенің сені сүйгенін байқап,
+
+Мен де сүйемін — шексіз, мөлдір,
+Жүрегімнің барлық жылуымен.
+Сен — менің жарығымсың, сен — менің өмірімсің,
+Сенсіз мен — қараңғылықтағы жан.
+
+Айт маған бір ауыз жылы сөз,
+Жүрегіме от боп жанады сол.
+Мен сені сүйемін — бұл — ең ұлы шындық,
+Бұл сезімді алдамаймын ешқашан да.`
+        },
+        'muq-2': {
+            title: 'Ана туралы жыр',
+            subtitle: 'Песнь о матери',
+            text: `Анашым, ақ жаулықты ана менің,
+Қолыңда өстім, қанатыңда жетілдім.
+Дүниеге саған разы, ана, менің,
+Сен берген өмір үшін, жарық үшін.
+
+Таң атса — бетімнен сипаған қол,
+Кеш батса — «ұйықта» деген даусың.
+Ана деген — ең қасиетті сөз,
+Ана деген — менің бар бақытым.
+
+Жалғыз тілегім — денің сау болсын,
+Ұзақ өмір сүр — ана, анашым.
+Сен тұрсаң — мен де тұрамын, сенемін,
+Сен — менің күшімсің, сен — менің демімсің.`
+        },
+        'muq-3': {
+            title: 'Өмір-ай',
+            subtitle: 'О, жизнь',
+            text: `Өмір-ай, өмір, өткінші өмір,
+Жатырсың ба, тұрырсың ба — білмеймін.
+Күн де батар, айда шығар — бұл тіршілік,
+Бірінің аяқталып, бірі келер.
+
+Тіршілік деген — бір ғажайып нәрсе,
+Өткен күнді қайтара алмайсың.
+Бірақ алға қарай жүруге болады,
+Болашақ ашық — алдыңда жол.
+
+Өмір-ай, өмір, сен маған неге
+Осыншама сұрақ бересің?
+Жауабын іздеймін — таба алмаймын,
+Тек жырлаймын — жырлай беремін.`
+        },
+        'muq-4': {
+            title: 'Сен маған жылы сөз айтпадың',
+            subtitle: 'Ты мне не сказала тёплого слова',
+            text: `Сен маған жылы сөз айтпадың,
+Бірақ мен сені ұмытпадым.
+Жүрегім жырлаған жалғыз жар —
+Сенсің деп, сенсің деп, сенсің деп.
+
+Қара шашың желде желбіреді,
+Сол суреттен баз кешалмаймын.
+Жылы сөз айтпасаң да — мейлі,
+Сені сүюді тоқтата алмаймын.
+
+Сен маған жылы сөз айтпадың —
+Бұл сырды кімге айтайын?
+Тек жырға айналды бұл сезім,
+Жыр болып — мәңгі сақталып қалды.`
+        },
+        'muq-5': {
+            title: 'Аңсаймын',
+            subtitle: 'Тоскую',
+            text: `Аңсаймын, аңсаймын, аңсаймын сені,
+Жылдар өткен сайын аңсай береді.
+Сен жоқта дүниенің бояуы солып,
+Жүрегім жалғыздықтан жанып кетті.
+
+Аңсаймын — алыста жүрсең де,
+Аңсаймын — жақын жерде болсаң да.
+Сенімен бір сәт сөйлескен кез —
+Ол — менің ең бақытты сәтім.
+
+Аңсаймын, аңсаймын — не қылайын?
+Аңсау — менің жазмышым болды.
+Сені аңсаған жырлар жаздым —
+Жырларым — менің аңсаулығым.`
+        },
+        'muq-6': {
+            title: 'Мен жастарға сенемін',
+            subtitle: 'Я верю в молодёжь',
+            text: `Мен жастарға сенемін, сенемін,
+Өмір жасай берсін деп тілеймін.
+Алдарыңда биік тау, кең дала —
+Аспанда ұшыңдар — жастар, жастар!
+
+Жастық — күш, жастық — шабыт,
+Жастықты жоғалтпаңдар, жастар.
+Өткен ұрпақтың мұрасын алып,
+Жаңаны жасаңдар — жастар, жастар!
+
+Мен жастарға сенемін, сенемін —
+Бұл сенімнен баз кешпеймін.
+Сіздерде — елдің болашағы,
+Сіздерде — менің үмітім!`
+        },
+        'muq-7': {
+            title: 'Жарқын жан',
+            subtitle: 'Светлая душа',
+            text: `Жарқын жан, жарқын жан, жарқын жан,
+Бар дүниені жарқыратар нұр жан.
+Жүрегінде мейірім, ойында арман,
+Сол жанды іздеймін — жарқын жанды!
+
+Жарқын жан деген — сирек кездеседі,
+Жарастыра білетін жан — ол.
+Бар дүниені жарық өмірге толтырып,
+Маңайындағыларды бақытты етеді.
+
+Жарқын жан — сен де болуыңа болады,
+Жүрегіңде жарық сақтасаң болды.
+Жарқын жан болу — таңдау,
+Сол таңдауды жасайық — бірге!`
+        },
+        'muq-8': {
+            title: 'Туған жер',
+            subtitle: 'Родная земля',
+            text: `Туған жер, туған жер — ардақты жер,
+Сенсіз өмір мазасыз, жетімсіз.
+Тауларың биік, далаларың кең —
+Жүрегімде сен — туған жерім!
+
+Туған жерден алыс жүрсем де,
+Жүрегімде сенің бейнең тұр.
+Ата-аналарым жүрген жер — ол,
+Балалығым өткен жер — ол.
+
+Туған жер, туған жер — мәңгі сенікімін,
+Қайда барсам — сен — менің мекенімсің.
+Туған жерге деген сүйіспеншілік —
+Ол — ең асыл, ең таза сезім!`
+        },
+        'muq-9': {
+            title: 'Ғашықтық жыры',
+            subtitle: 'Песнь влюблённого',
+            text: `Ғашық болдым — не керек?
+Жүрегім жар іздеп жүр.
+Ай мен күннен де гөрі жарқыраған
+Сен тұрсаң — басқа не керек?
+
+Ғашықтық — бұл жай сезім емес,
+Ол — жанды оятқан күш.
+Ғашық болып — жырлаймын,
+Жырлай отырып — өмір сүремін.
+
+Ғашық болдым — мойындаймын,
+Бұл — менің ең бақытты сезімім.
+Ғашықтықтан туған жырлар —
+Олар — менің жан жыры!`
+        },
+        'muq-10': {
+            title: 'Жан сырым',
+            subtitle: 'Тайна моей души',
+            text: `Жан сырым, жан сырым — терең сыр,
+Айта алмай жүрмін ешкімге.
+Тек жыр біледі — жыр ғана айтар,
+Жазбаса жырды — кім білер?
+
+Жан сырым — терең теңіз секілді,
+Бетінен ғана байқалмайды.
+Тереңіне сүңгіген адам ғана,
+Ол сырды ұғар — ол ғана.
+
+Жан сырым — жырлаймын сені,
+Жырда — менің барлық шындығым.
+Жырлай жүріп — тазарамын,
+Жырда — менің жан сырым!`
+        },
+        'muq-11': {
+            title: 'Дала',
+            subtitle: 'Степь',
+            text: `Дала, дала, кең байтақ дала,
+Жел жүгіреді — жусанның иісі.
+Аспан биік, ой да биік —
+Далада өстім, далаға сыйдым.
+
+Дала — менің туған анам,
+Оның кеңдігінде кеңірдім.
+Жусан иісі — менің бала шағым,
+Дала желі — менің тынысым.
+
+Дала, дала, кең байтақ дала,
+Сенде жатыр ата-бабаларым.
+Сенде жатыр менің тамырым —
+Дала — менің мәңгілік мекенім!`
+        },
+        'muq-12': {
+            title: 'Қоштасу',
+            subtitle: 'Прощание',
+            text: `Қоштасамын — тағы да кетемін,
+Жолдарым ұзын, жүрегім кенен.
+Кездескенше тағы да сау бол, жан,
+Жолың болсын — ізгілік жолы!
+
+Қоштасу — өміршең нәрсе,
+Кездесу де бар — қоштасу да бар.
+Бірақ қоштасқанда — жылама,
+Кездесу де болады — тағы да!
+
+Сау бол, сау бол — жан досым,
+Жолыңда — жарық болсын.
+Бақыт тілеймін — шынымен,
+Кездескенше — сау бол!`
+        },
+        'muq-13': {
+            title: 'Таң',
+            subtitle: 'Рассвет',
+            text: `Таң атты — дүние оянды,
+Жылдамырақ оян, жан, жылдамырақ!
+Бүгін де жаңа күн — жаңа өмір,
+Ерте тұрсаң — ерте жетерсің.
+
+Таң — ең ғажайып уақыт,
+Тыныш та, салқын да, таза да.
+Таңмен бірге оянып — жырлаймын,
+Таң — менің шабытымның бастауы.
+
+Таң атты — жаңа мүмкіндік,
+Жоғалтпа бұл алтын сәтті.
+Таң мен бірге жырла, жан,
+Жырда — таңның жарығы!`
+        },
+        'muq-14': {
+            title: 'Достыққа жыр',
+            subtitle: 'Гимн дружбе',
+            text: `Достым бар — бақытым бар,
+Дос қолынан келер нені де.
+Жалғыздықтан сақтар дос,
+Дос — адамның ең қымбат байлығы.
+
+Дос деген — шынайы дос,
+Жақсыда да, жаманда да қасыңда.
+Дос тауып алу — бақыт,
+Дос болып қалу — ерлік.
+
+Достыққа жыр жазамын —
+Достық — ең ұлы байлық.
+Дос болайық — шынайы дос,
+Достықта — адамның ұлылығы!`
+        },
+        'muq-15': {
+            title: 'Жастық шақ',
+            subtitle: 'Молодость',
+            text: `Жастық шақ — алтын шақ,
+Ол кетер — оралмас артқа.
+Бағала жастықты, жас жан,
+Ол — өмірдің ең сұлу кезі.
+
+Жастықта — күш те бар, арман да бар,
+Жастықта — бәрі де мүмкін.
+Жастықты жоғалтпа бекер — жас,
+Жастық — бір рет беріледі.
+
+Жастық шақта жасаған іс —
+Ол — мәңгі жадыңда қалады.
+Жасыңда жақсы өмір сүр —
+Жастық шақ — аруақты шақ!`
+        },
+        'muq-16': {
+            title: 'Жүрегім',
+            subtitle: 'Моё сердце',
+            text: `Жүрегім — менің жырымның бастауы,
+Онда — шаттық та, мұң да сыйысқан.
+Жырлар жазылар жүректен туып,
+Жүрексіз жыр жоқ — жыр жүректен!
+
+Жүрек — ең шынайы нәрсе,
+Алдамайды — жүрек алдамайды.
+Жүрек айтқанды жыр дейді —
+Жүректен туған жыр — шынайы жыр.
+
+Жүрегімді тыңда, жан,
+Ол саған шындықты айтады.
+Жүректі сақта — таза сақта,
+Таза жүрек — ең ұлы байлық!`
+        },
+        'muq-17': {
+            title: 'Бақыт',
+            subtitle: 'Счастье',
+            text: `Бақыт деген не? — сұраймын өзіме,
+Ол — адамның жанындағы жарығы.
+Жақсылық жас, дос, ана, жар —
+Осылар бар жерде — бақыт бар!
+
+Бақыт — үлкен нәрсе емес кейде,
+Кішкентай қуаныштан тұрады.
+Таңертең күн шықты — бақыт,
+Достан хат келді — бақыт.
+
+Бақытты іздеп — алысқа бармай,
+Қасыңда ізде — бақыт жақын.
+Жақсылық жаса — бақытты боласың,
+Бақыт — сенің қолыңда!`
+        },
+        'muq-18': {
+            title: 'Көктем',
+            subtitle: 'Весна',
+            text: `Көктем келді — жер оянды,
+Гүлдер ашылды — иіс аңқыды.
+Жылы леп желдің тиді бетіме,
+Көктем — өмірдің жаңаруы!
+
+Көктем — үміт, көктем — жаңалық,
+Қыстың суығынан кейін — жылылық.
+Табиғат та жаңарады — адам да,
+Көктем — жаңа бастаудың уақыты.
+
+Көктемді сүйемін — бар жанымен,
+Көктемде — бар нәрсе де жаңарады.
+Жүрегімде де — көктем болсын,
+Мәңгі жас, мәңгі шабытты — болайын!`
+        },
+        'muq-19': {
+            title: 'Ақын жыры',
+            subtitle: 'Песнь поэта',
+            text: `Ақын — халықтың жан дауысы,
+Жырлайды — жылайды, жырлайды — күледі.
+Халық мұңы — ақын мұңы,
+Халық қуанышы — ақын қуанышы!
+
+Ақын болу — бақыт та, азап та,
+Жырлауға — жүрек керек, батылдық керек.
+Шындықты айтқан — ақын,
+Жалғанды жырлаған — жырдың дұшпаны.
+
+Ақын жыры — халық жыры,
+Халық тыңдар — ақын жырын.
+Жырлай берейін — жырлай берейін,
+Жырым — менің халқыма арнаулы!`
+        },
+        'muq-20': {
+            title: 'Соңғы жыр',
+            subtitle: 'Последняя песня',
+            text: `Айтар сөзім айтылды — жыр жаздым,
+Жазылмаған жырлар да аз емес.
+Бірақ жаздым — жаздым жүрегіммен,
+Жырларым қалар — мен кетсем де.
+
+Өмір — өтеді, ақын — кетеді,
+Бірақ жыр — мәңгі өлмейді.
+Жыр — адамның жанынан жаратылған,
+Жан өлмесе — жыр өлмейді.
+
+Жырларым — менің мұрам,
+Оларды халқыма қалдырамын.
+Оқыңдар, тыңдаңдар, жырлаңдар —
+Жырдың мәңгілігіне сенемін!`
+        },
+        'sha-1': {
+            title: 'Аралға арналған жыр',
+            subtitle: 'Поэма об Арале',
+            text: `Арал кетті, Арал өлді дейді,
+Теңіз жоқ — тек ащы тұз қалды.
+Ата-бабам балық аулаған жер —
+Енді шөл — шалқар шөл ғана.
+
+Арал! — атың айтқанда жылаймын,
+Балалығым өткен жер — сенсің.
+Балықшылардың аулары — бос,
+Кемелер — шөлде тастанды тұр.
+
+Адамзат жіберген осы қателік —
+Табиғатқа кешірілмес қылмыс.
+Аралды қайтарайық! — деймін,
+Аралсыз болашақ жоқ — бізге!
+
+Арал — адамзаттың ұятының айнасы,
+Арал — болашақтың алдындағы біздің айыбымыз.
+Оянайық! — бұл апатты тоқтатайық,
+Арал — тірі болу керек — тірі!`
+        },
+        'sha-2': {
+            title: 'Атамекен',
+            subtitle: 'Родина предков',
+            text: `Атамекен — ата-ананың жері,
+Ол — жадыда, жүректе сақтаулы.
+Мың жылда да сол жер — сол жер,
+Атамекен — мәңгілік мекен!
+
+Атамекен — ата-бабам жүрген жер,
+Олардың аяқ іздері — топырақта.
+Сол топырақта тамырым — терең,
+Сол жерден алшақтай алмаймын.
+
+Атамекен — Қазақстан менің,
+Оның кеңдігінде кеңірдім.
+Оның таулары — мен,
+Оның далалары — мен!
+
+Атамекенді сақтайық, жандар,
+Ол — бізге мұра — ата-бабадан.
+Ол — бізден кейінгілерге мұра,
+Атамекен — мәңгілік мекен!`
+        },
+        'sha-3': {
+            title: 'Жер ана',
+            subtitle: 'Мать-Земля',
+            text: `Жер ана — барлық тіршіліктің анасы,
+Оны қорлаған — өзін қорлады.
+Бүгін оны аяма десек,
+Ертең ол бізді аяр ма екен?
+
+Жер анаға — зиян тигізбейік,
+Ол — бізге берілген жалғыз мекен.
+Басқа планетамыз жоқ — бірі ғана Жер,
+Жер ананы сақтайық — бірге!
+
+Орман кесілді — Жер жылады,
+Өзен ластанды — Жер жылады.
+Жануарлар жоғалды — Жер жылады,
+Жер анаға тың тарт — жан!
+
+Жер ана — сенің анаңдай,
+Ана жыласа — ұл не сезеді?
+Жер анаңды жылатпа — аяла,
+Жер ана — барша тіршіліктің иесі!`
+        },
+        'sha-4': {
+            title: 'Желтоқсан',
+            subtitle: 'Декабрь 1986',
+            text: `Желтоқсан — жалын, от пен жас,
+Жастар жанымен бостандық сұрады.
+Алматының аспаны ала-боз —
+Тарих жазды: «Желтоқсан 1986».
+
+Жастар шықты алаңға — батыл,
+«Бостандық!» — деп ұрандады.
+Оқ тиді — бірақ рух тиялмады,
+Желтоқсан рухы — өшпейді!
+
+Желтоқсан жастарының аттары —
+Жазылды халқының жадына мәңгі.
+Олар берді өмірін — ел үшін,
+Олар — ерлер, олар — батырлар!
+
+Желтоқсан — тарих сабағы,
+Ұмытпайық — ешқашан да.
+Бостандық үшін берілген жан —
+Ол — мәңгілік, ол — ардақ!`
+        },
+        'sha-5': {
+            title: 'Тіл — халықтың жаны',
+            subtitle: 'Язык — душа народа',
+            text: `Тілін жоғалтқан халық — жанын жоғалтады,
+Тіл — халықтың өлмейтін жаны.
+Қазақша сөйле, қазақша жырла —
+Тіліңде халқыңның мәңгілігі!
+
+Тіл — ұлттың ең ұлы байлығы,
+Тіл жоғалса — халық жоғалады.
+Ана тілімді сақтаймын — деймін,
+Ана тілім — менің болмысым.
+
+Қазақ тілі — кең дала секілді,
+Оның кеңдігінде — мәдениет.
+Мыңдаған жылдың жемісі — тіл,
+Тілді сақтайық — мыңдаған жылға!
+
+Тіл — халықтың жаны — шынайы,
+Жансыз дене жүрмейді — тілсіз халық жоқ.
+Қазақша сөйле, қазақша ойла —
+Тіліңде — халқыңның мәңгілігі!`
+        },
+        'sha-6': {
+            title: 'Ұлы дала',
+            subtitle: 'Великая Степь',
+            text: `Ұлы дала — ұлы тарих,
+Сонда жасаған ата-бабаларым.
+Жылқы үстінде жорыққа шыққан жандар,
+Солардың ұрпағымын мен — мақтанышпен.
+
+Ұлы дала — Еуразия жүрегі,
+Сол далада — мыңдаған жылдар өтті.
+Скифтер, ғұндар, қыпшақтар, қазақтар —
+Бәрі де сол далада дем алды.
+
+Ұлы дала — менің жырымның бастауы,
+Ол — менің шабытымның қайнары.
+Дала жырлайды — мен тыңдаймын,
+Дала — менің мәңгі мұғалімім!
+
+Ұлы дала — сақтайық сені,
+Болашақ ұрпаққа — мирас етіп.
+Дала — тек жер емес — тарих,
+Ұлы даланы — ұлылықпен сақтайық!`
+        },
+        'sha-7': {
+            title: 'Адам болу — ауыр',
+            subtitle: 'Быть человеком — тяжело',
+            text: `Адам болу — ауыр жүк,
+Виждан сақтаған адамға.
+Жалғандық оңай — ақиқат қиын,
+Бірақ ақиқатсыз адам жоқ!
+
+Адам болу — жауапкершілік,
+Отбасы алдында, халық алдында.
+Ел алдындағы жауап — ауыр,
+Бірақ сол жауаптылық — ұлылық.
+
+Адам болу — таңдау жасау,
+Жақсылық пен жамандық арасында.
+Жақсылықты таңда — адам,
+Жақсылықта — адамның мәні!
+
+Адам болу — ауыр — бірақ,
+Адам болғаннан — бақыт жоқ.
+Адам болып туылған — бақытты,
+Адам болып өмір сүрейік — бірге!`
+        },
+        'sha-8': {
+            title: 'Тарихтың тар жолы',
+            subtitle: 'Узкая тропа истории',
+            text: `Тарих жолы — тар жол, қиын жол,
+Бірақ халық жүреді ол жолмен.
+Жыққан адымда тұрып қалмай,
+Алға ілгерілейді — халық жолы!
+
+Тарих — ұстаз, тарих — айна,
+Оны оқыған — дана болады.
+Тарихтан сабақ алайық — жандар,
+Болашақты — тарихтан жасаймыз.
+
+Тарихтың тар жолымен — батыр жүреді,
+Бас тартпай, шегінбей — алға.
+Халқымның тарихын біл — жан,
+Тарихты білген — болашақты жасайды!
+
+Тарихтың тар жолы — кең жолға айналады,
+Халықтың бірлігімен — бірге.
+Бірлікте — күш, бірлікте — жеңіс,
+Халқым — мәңгі жасай бер!`
+        },
+        'sha-9': {
+            title: 'Ақын жауапкершілігі',
+            subtitle: 'Ответственность поэта',
+            text: `Ақынның алдында — халық тұр,
+Халық алдындағы жауап — ауыр.
+Жалған жырлаған — ақын емес,
+Ақиқатты айтқан — ақын ол!
+
+Ақын — халықтың алдашысы,
+Жол көрсетеді — алға қарай.
+Жорық жырын жырлайды — батылдықпен,
+Халықты рухтандырады — жырымен.
+
+Ақын жауапкершілігі — ауыр жүк,
+Бірақ сол жүкті — ақын алады.
+Себебі ақын — халықтан туады,
+Халық үшін — жырлайды ақын.
+
+Ақын жазсын — шындықты жазсын,
+Жалғандықтан — безінсін ақын.
+Ақиқат жыр — халыққа күш,
+Ақиқат жыры — мәңгі өлмейді!`
+        },
+        'sha-10': {
+            title: 'Болашаққа хат',
+            subtitle: 'Письмо в будущее',
+            text: `Болашақтың балалары, сіздерге жазам,
+Бүгінгі күннің ауыр жүгін айтам.
+Жерді сақтаңдар, суды сақтаңдар,
+Болашақ — сіздердің қолда!
+
+Бүгін біз жасаған қателіктер —
+Сіздерге ауыр жүк болуы мүмкін.
+Кешіріңдер — егер жіберсек,
+Бірақ сіздерге үміт артамыз!
+
+Болашақтың балалары — сіздер,
+Бізден гөрі — данышпан болыңдар.
+Жерді — аяп сүйіңдер,
+Адамды — аяп сүйіңдер!
+
+Болашаққа хат жазамын — үмітпен,
+Сіздер — жарқын болашақсыздар.
+Бүгін ектеніміз — сіздерге тиеді,
+Жақсы дәнді ек — жақсы жемісі болады!`
+        },
+        'sha-11': {
+            title: 'Семей полигоны',
+            subtitle: 'Семипалатинский полигон',
+            text: `Семей даласы — жарылыстан шаршаған,
+Топырағы уланып, халқы азынаған.
+Жарылыс тоқтасын! — дедік дауыстап,
+Тоқтатылды — халықтың күші!
+
+Семейдің аспаны — қараңғы болды,
+Ядролық жарылыс — адамды жойды.
+Бірақ халық — жарылысқа қарсы тұрды,
+«Невада — Семей» — қозғалыс жеңді!
+
+Семей халқы — батыр халық,
+Апаттың ішінде — рухы сынмады.
+Ядролық полигонды жапты — бірге,
+Семей халқы — мақтаныш халқым!
+
+Бейбітшілік жолында — тесті халқым,
+Ядролық қару — адамзат дұшпаны.
+Бейбіт дүниені сақтайық — бірге,
+Семей — енді бейбіт болсын — мәңгі!`
+        },
+        'sha-12': {
+            title: 'Достық гимні',
+            subtitle: 'Гимн дружбы народов',
+            text: `Халықтар достығы — бейбіт өмір,
+Достықсыз дүние — сорлы дүние.
+Қол берейік бір-біріне —
+Бірге күшті, бірге бақытты!
+
+Дос халықтар — бірге тұрады,
+Ортақ мұраты — ортақ жол.
+Достық — халықтардың байлығы,
+Жаулық — бәрін жояды.
+
+Достық гимнін жырлаймын —
+Бар халықтарға тілеймін достық.
+Дос болайық — шынайы дос,
+Достықта — адамзаттың болашағы!
+
+Достық — тіл де, дін де емес,
+Достық — жүректен жүрекке.
+Жүрегімді ашамын — достық үшін,
+Достық — мәңгілік, достық — шынайы!`
+        },
+        'sha-13': {
+            title: 'Мұқағалиға',
+            subtitle: 'Посвящение Мукагали',
+            text: `Мұқағали — мың жылда бір туады,
+Ондай жан жерге сирек келеді.
+Кетті ерте — бірақ жырлары қалды,
+Жырлары — мәңгілік, Мұқағали!
+
+Мұқағали жырлады — жылайды,
+Мұқағали жырлады — күледі.
+Жүрегімен жырлады — шынайы,
+Жырлары — жүректен — жүрекке жетті.
+
+Мұқағали — менің ағам,
+Менің ұстазым, менің жыршым.
+Ол кеткен — орны толмады,
+Мұқағали — жалғыз, мәңгілік!
+
+Мұқағали жырларын оқысаңдар —
+Жүректерің тебіреніп кетер.
+Ондай жырларды жазған жан —
+Мұқағали — ұлы ақын!`
+        },
+        'sha-14': {
+            title: 'Ана жері',
+            subtitle: 'Земля матери',
+            text: `Анам туған жерді сүйдім,
+Сол жердің тасы да — қымбат маған.
+Ана жері — ең қасиетті жер,
+Оны аяп жүреміз — ана үшін.
+
+Анам жүрген жерде — ана иісі бар,
+Ана иісі — дүниенің ең тәтті иісі.
+Ана жерін аялаймын — анам үшін,
+Анам — менің ең ұлы ұстазым.
+
+Ана жері — кіндік қаным тамған,
+Сол жерге — терең тамырлым.
+Ана жерін жат жерге сатпаймын,
+Ана жері — менің мәңгілік мекенім!
+
+Ана жерін сүйіңдер — жандар,
+Ана жерсіз — халық жоқ.
+Ана жерді — аялаңдар,
+Ана жерде — халықтың тамыры!`
+        },
+        'sha-15': {
+            title: 'Тәуелсіздік',
+            subtitle: 'Независимость',
+            text: `Тәуелсіздік — ата-бабаның арманы,
+Жеттік соған — ұрпақтар тынысы.
+Бостандықта өмір сүру — бақыт,
+Тәуелсіздігімізді сақтайық!
+
+Тәуелсіздік — оңай келмеді,
+Мыңдаған жандар берді өмірін.
+Тәуелсіздіктің бағасын біл —
+Ол — қан мен жаспен жазылған!
+
+Тәуелсіз Қазақстан — менің ұлы елім,
+Оның аспаны — менің аспаным.
+Оның жері — менің жерім,
+Оның халқы — менің халқым!
+
+Тәуелсіздікті сақтайық — бірге,
+Сақтайық — болашаққа беру үшін.
+Тәуелсіз ел — бақытты ел,
+Тәуелсіздік — мәңгілік болсын!`
+        },
+        'sha-16': {
+            title: 'Ұлт рухы',
+            subtitle: 'Дух нации',
+            text: `Ұлт өлмейді — рухы өлмеген жерде,
+Рух — халықтың мәңгілік күші.
+Езілсе де — тіршілік етті халқым,
+Рухы тірі — халық тірі!
+
+Ұлт рухы — тіл мен мәдениетте,
+Дәстүрде, жырда, ойында.
+Ұлт рухын сақтайық — жандар,
+Рухсыз халық — халық емес!
+
+Қазақ рухы — мыңдаған жылдан,
+Сол рух — бізге жеткен мирас.
+Сол рухты — болашаққа береміз,
+Ұлт рухы — өлмейді — мәңгі!
+
+Ұлт рухын жырлаймын — батылдықпен,
+Ұлт рухымен — алға жүремін.
+Ұлт рухы — менің күшім,
+Ұлт рухы — мәңгілік, мәңгілік!`
+        },
+        'sha-17': {
+            title: 'Ашаршылық',
+            subtitle: 'Голодомор',
+            text: `Ашаршылықта ата-аналарым,
+Балаларын аш өлімге тастамады.
+Ашты кезде де халық болды халық —
+Сол рух — менің мақтанышым!
+
+1931—1933 жылдар — қара жылдар,
+Миллиондаған қазақ опат болды.
+Бірақ халық — тіршілік етті,
+Халық рухы — өлтірілмеді!
+
+Ашаршылықты ұмытпайық — жандар,
+Ол — тарихымыздың ауыр беті.
+Сол беттен — сабақ аламыз,
+Мұндай апатқа — жол бермейік!
+
+Ашаршылықта өлгендерге — бас иемін,
+Олар — менің халқымның мұңы.
+Рухтарың — тыныш болсын,
+Халқыңыз — өмір сүруде — мәңгі!`
+        },
+        'sha-18': {
+            title: 'Сарыарқа',
+            subtitle: 'Сарыарка',
+            text: `Сарыарқа — сарғылт алтын дала,
+Жусан иісі — менің балалығым.
+Сол далада өстім, сол далада жүрдім,
+Сарыарқа — жүрегімнің сарыны.
+
+Сарыарқаның жусаны — дәрі,
+Тиіп кетсе — жан жазылады.
+Сарыарқаның желі — жылы,
+Тиіп кетсе — қайғы ұшады.
+
+Сарыарқа — ата-бабам мекені,
+Олардың аяқ іздері — сол жерде.
+Сол жерге барғанда — тынышталамын,
+Сарыарқа — менің тыным орным!
+
+Сарыарқа — мәңгілік мекен,
+Оны сүйемін — шексіз сүйемін.
+Сарыарқа жерінде — жатамын,
+Сарыарқа — мәңгілік мекенім!`
+        },
+        'sha-19': {
+            title: 'Жырым — жаным',
+            subtitle: 'Моя поэзия — моя душа',
+            text: `Жырым — жаным, жырым — тіршілігім,
+Жырсыз өмір — мені жоқ дегенмен бір.
+Жырмен туып, жырмен өсіп,
+Жырмен кетемін — мәңгілікке.
+
+Жыр — менің дем алысым,
+Жырсыз — бір сәт тіршілік ете алмаймын.
+Жыр — менің азығым, жыр — менің суым,
+Жырсыз мен — жоқпын.
+
+Жырым — халқыма арналған,
+Халықсыз жыр жоқ — жырсыз халық жоқ.
+Жырмен халқыма қызмет етемін,
+Жырым — халқымның жан дауысы!
+
+Жырым — жаным — мәңгілік,
+Мен өтсем де — жырым өтпейді.
+Жырымды оқы — жаным тыңда,
+Жырымда — менің мәңгілігім!`
+        },
+        'sha-20': {
+            title: 'Ел болашағы — жастар',
+            subtitle: 'Молодёжь — будущее страны',
+            text: `Жастар — елдің болашағы,
+Олардың қолында ел тағдыры.
+Оқыңдар, үйреніңдер, ізденіңдер —
+Болашақты жасайсыздар сіздер!
+
+Жастар — ел мақтанышы,
+Жастар — ел үміті.
+Жастар оқыса — ел дамиды,
+Жастар жақсы болса — ел жақсы!
+
+Жастарға тілеймін — денсаулық,
+Тілеймін — білім, тілеймін — бақыт.
+Ел болашағы — сіздер,
+Болашақ — сіздердің қолда!
+
+Жастар — оқыңдар, ізденіңдер,
+Ата-бабаңның мұрасын қадірлеңдер.
+Болашақ Қазақстан — мықты болсын,
+Жастар — сіздерге сенемін!`
+        }
+    };
+
+    function openModal(id) {
+        const poem = poems[id];
+        if (!poem) return;
+        document.getElementById('modal-title').textContent = poem.title;
+        document.getElementById('modal-subtitle').textContent = poem.subtitle;
+        document.getElementById('modal-poem-text').textContent = poem.text;
+        document.getElementById('modal-overlay').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(e) {
+        if (e.target === document.getElementById('modal-overlay')) {
+            closeModalBtn();
+        }
+    }
+
+    function closeModalBtn() {
+        document.getElementById('modal-overlay').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeModalBtn();
+    });
+</script>
+
+</body>
+</html>
